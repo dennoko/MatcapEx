@@ -22,6 +22,22 @@ namespace lilToon
         private MaterialProperty _CustomMatCap1_Blur;
         private MaterialProperty _CustomMatCap1_Alpha;
 
+        // Custom properties 2nd
+        private static bool isShowMatCap2nd;
+        private MaterialProperty _CustomMatCap2nd_Enable;
+        private MaterialProperty _CustomMatCap2nd_Color;
+        private MaterialProperty _CustomMatCap2nd_MainColorPower;
+        private MaterialProperty _CustomMatCap2nd_Tex;
+        private MaterialProperty _CustomMatCap2nd_Blend;
+        private MaterialProperty _CustomMatCap2nd_Mask;
+        private MaterialProperty _CustomMatCap2nd_BumpScale;
+        private MaterialProperty _CustomMatCap2nd_UseReflection;
+        private MaterialProperty _CustomMatCap2nd_DisableBackface;
+        private MaterialProperty _CustomMatCap2nd_EnableLighting;
+        private MaterialProperty _CustomMatCap2nd_ShadowStrength;
+        private MaterialProperty _CustomMatCap2nd_Blur;
+        private MaterialProperty _CustomMatCap2nd_Alpha;
+
         private static bool isShowCustomProperties;
         private const string shaderName = "dennoko_matcapex";
 
@@ -44,6 +60,20 @@ namespace lilToon
             _CustomMatCap1_ShadowStrength  = FindProperty("_CustomMatCap1_ShadowStrength", props);
             _CustomMatCap1_Blur            = FindProperty("_CustomMatCap1_Blur", props);
             _CustomMatCap1_Alpha           = FindProperty("_CustomMatCap1_Alpha", props);
+
+            _CustomMatCap2nd_Enable          = FindProperty("_CustomMatCap2nd_Enable", props);
+            _CustomMatCap2nd_Color           = FindProperty("_CustomMatCap2nd_Color", props);
+            _CustomMatCap2nd_MainColorPower  = FindProperty("_CustomMatCap2nd_MainColorPower", props);
+            _CustomMatCap2nd_Tex             = FindProperty("_CustomMatCap2nd_Tex", props);
+            _CustomMatCap2nd_Blend           = FindProperty("_CustomMatCap2nd_Blend", props);
+            _CustomMatCap2nd_Mask            = FindProperty("_CustomMatCap2nd_Mask", props);
+            _CustomMatCap2nd_BumpScale       = FindProperty("_CustomMatCap2nd_BumpScale", props);
+            _CustomMatCap2nd_UseReflection   = FindProperty("_CustomMatCap2nd_UseReflection", props);
+            _CustomMatCap2nd_DisableBackface = FindProperty("_CustomMatCap2nd_DisableBackface", props);
+            _CustomMatCap2nd_EnableLighting  = FindProperty("_CustomMatCap2nd_EnableLighting", props);
+            _CustomMatCap2nd_ShadowStrength  = FindProperty("_CustomMatCap2nd_ShadowStrength", props);
+            _CustomMatCap2nd_Blur            = FindProperty("_CustomMatCap2nd_Blur", props);
+            _CustomMatCap2nd_Alpha           = FindProperty("_CustomMatCap2nd_Alpha", props);
         }
 
         protected override void DrawCustomProperties(Material material)
@@ -60,6 +90,13 @@ namespace lilToon
                     _CustomMatCap1_BumpScale, _CustomMatCap1_UseReflection, _CustomMatCap1_DisableBackface,
                     _CustomMatCap1_EnableLighting, _CustomMatCap1_ShadowStrength, 
                     _CustomMatCap1_Blur, _CustomMatCap1_Alpha);
+
+                DrawMatCapSlot("MatCap 2nd", ref isShowMatCap2nd, 
+                    _CustomMatCap2nd_Enable, _CustomMatCap2nd_Color, _CustomMatCap2nd_MainColorPower, _CustomMatCap2nd_Tex, 
+                    _CustomMatCap2nd_Blend, _CustomMatCap2nd_Mask, 
+                    _CustomMatCap2nd_BumpScale, _CustomMatCap2nd_UseReflection, _CustomMatCap2nd_DisableBackface,
+                    _CustomMatCap2nd_EnableLighting, _CustomMatCap2nd_ShadowStrength, 
+                    _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha);
 
                 EditorGUILayout.EndVertical();
             }

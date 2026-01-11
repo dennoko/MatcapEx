@@ -16,12 +16,28 @@
     float _CustomMatCap1_Alpha; \
     float _CustomMatCap1_MainColorPower; \
     float4 _CustomMatCap1_Tex_ST; \
-    float4 _CustomMatCap1_Mask_ST;
+    float4 _CustomMatCap1_Mask_ST; \
+    /* MatCap 2nd */ \
+    float _CustomMatCap2nd_Enable; \
+    float4 _CustomMatCap2nd_Color; \
+    int _CustomMatCap2nd_Blend; \
+    float _CustomMatCap2nd_BumpScale; \
+    int _CustomMatCap2nd_UseReflection; \
+    int _CustomMatCap2nd_DisableBackface; \
+    float _CustomMatCap2nd_EnableLighting; \
+    float _CustomMatCap2nd_ShadowStrength; \
+    float _CustomMatCap2nd_Blur; \
+    float _CustomMatCap2nd_Alpha; \
+    float _CustomMatCap2nd_MainColorPower; \
+    float4 _CustomMatCap2nd_Tex_ST; \
+    float4 _CustomMatCap2nd_Mask_ST;
 
 // Custom textures
 #define LIL_CUSTOM_TEXTURES \
     TEXTURE2D(_CustomMatCap1_Tex); \
-    TEXTURE2D(_CustomMatCap1_Mask);
+    TEXTURE2D(_CustomMatCap1_Mask); \
+    TEXTURE2D(_CustomMatCap2nd_Tex); \
+    TEXTURE2D(_CustomMatCap2nd_Mask);
 
 // Add vertex shader input
 //#define LIL_REQUIRE_APP_POSITION
@@ -110,6 +126,7 @@
 { \
     float2 uvMain = fd.uvMain; \
     DNKW_MATCAP_LOGIC(1) \
+    DNKW_MATCAP_LOGIC(2nd) \
 }
 #else
 #define BEFORE_MATCAP
