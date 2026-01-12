@@ -32,3 +32,20 @@
                         _CustomMatCap2nd_ShadowStrength ("Shadow Strength", Range(0,1)) = 0.0
                         _CustomMatCap2nd_Blur           ("Blur", Range(0,1)) = 0.0
                         _CustomMatCap2nd_Alpha          ("Opacity", Range(0,1)) = 1.0
+
+        //----------------------------------------------------------------------------------------------------------------------
+        // Custom MatCap 3rd
+        //----------------------------------------------------------------------------------------------------------------------
+        [lilToggle]     _CustomMatCap3rd_Enable         ("Enable MatCap 3rd", Float) = 0
+        [lilHDR]        _CustomMatCap3rd_Color          ("Color", Color) = (1,1,1,1)
+                        _CustomMatCap3rd_MainColorPower ("Main Color Strength", Range(0,1)) = 0.0
+                        _CustomMatCap3rd_Tex            ("MatCap Texture", 2D) = "white" {}
+        [lilEnum]       _CustomMatCap3rd_Blend          ("Blend Mode|Add|Screen|Multiply", Int) = 1
+                        _CustomMatCap3rd_Mask           ("Mask", 2D) = "white" {}
+                        _CustomMatCap3rd_BumpScale      ("Normal Strength", Range(0,3)) = 1.0
+        [lilToggle]     _CustomMatCap3rd_UseReflection  ("Use Reflection", Int) = 0
+        [lilToggle]     _CustomMatCap3rd_DisableBackface("Disable on Backface", Int) = 0
+                        _CustomMatCap3rd_EnableLighting ("Enable Lighting", Range(0,1)) = 1.0
+                        _CustomMatCap3rd_ShadowStrength ("Shadow Strength", Range(0,1)) = 0.0
+                        _CustomMatCap3rd_Blur           ("Blur", Range(0,1)) = 0.0
+                        _CustomMatCap3rd_Alpha          ("Opacity", Range(0,1)) = 1.0

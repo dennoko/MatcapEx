@@ -38,6 +38,22 @@ namespace lilToon
         private MaterialProperty _CustomMatCap2nd_Blur;
         private MaterialProperty _CustomMatCap2nd_Alpha;
 
+        // Custom properties 3rd
+        private static bool isShowMatCap3rd;
+        private MaterialProperty _CustomMatCap3rd_Enable;
+        private MaterialProperty _CustomMatCap3rd_Color;
+        private MaterialProperty _CustomMatCap3rd_MainColorPower;
+        private MaterialProperty _CustomMatCap3rd_Tex;
+        private MaterialProperty _CustomMatCap3rd_Blend;
+        private MaterialProperty _CustomMatCap3rd_Mask;
+        private MaterialProperty _CustomMatCap3rd_BumpScale;
+        private MaterialProperty _CustomMatCap3rd_UseReflection;
+        private MaterialProperty _CustomMatCap3rd_DisableBackface;
+        private MaterialProperty _CustomMatCap3rd_EnableLighting;
+        private MaterialProperty _CustomMatCap3rd_ShadowStrength;
+        private MaterialProperty _CustomMatCap3rd_Blur;
+        private MaterialProperty _CustomMatCap3rd_Alpha;
+
         private static bool isShowCustomProperties;
         private const string shaderName = "dennoko_matcapex";
 
@@ -74,32 +90,48 @@ namespace lilToon
             _CustomMatCap2nd_ShadowStrength  = FindProperty("_CustomMatCap2nd_ShadowStrength", props);
             _CustomMatCap2nd_Blur            = FindProperty("_CustomMatCap2nd_Blur", props);
             _CustomMatCap2nd_Alpha           = FindProperty("_CustomMatCap2nd_Alpha", props);
+
+            _CustomMatCap3rd_Enable          = FindProperty("_CustomMatCap3rd_Enable", props);
+            _CustomMatCap3rd_Color           = FindProperty("_CustomMatCap3rd_Color", props);
+            _CustomMatCap3rd_MainColorPower  = FindProperty("_CustomMatCap3rd_MainColorPower", props);
+            _CustomMatCap3rd_Tex             = FindProperty("_CustomMatCap3rd_Tex", props);
+            _CustomMatCap3rd_Blend           = FindProperty("_CustomMatCap3rd_Blend", props);
+            _CustomMatCap3rd_Mask            = FindProperty("_CustomMatCap3rd_Mask", props);
+            _CustomMatCap3rd_BumpScale       = FindProperty("_CustomMatCap3rd_BumpScale", props);
+            _CustomMatCap3rd_UseReflection   = FindProperty("_CustomMatCap3rd_UseReflection", props);
+            _CustomMatCap3rd_DisableBackface = FindProperty("_CustomMatCap3rd_DisableBackface", props);
+            _CustomMatCap3rd_EnableLighting  = FindProperty("_CustomMatCap3rd_EnableLighting", props);
+            _CustomMatCap3rd_ShadowStrength  = FindProperty("_CustomMatCap3rd_ShadowStrength", props);
+            _CustomMatCap3rd_Blur            = FindProperty("_CustomMatCap3rd_Blur", props);
+            _CustomMatCap3rd_Alpha           = FindProperty("_CustomMatCap3rd_Alpha", props);
         }
 
         protected override void DrawCustomProperties(Material material)
         {
-            isShowCustomProperties = Foldout("Custom MatCap Properties", "Custom MatCap Properties", isShowCustomProperties);
-            if(isShowCustomProperties)
-            {
-                EditorGUILayout.BeginVertical(boxOuter);
-                EditorGUILayout.LabelField(GetLoc("Custom MatCap Properties"), customToggleFont);
-                
-                DrawMatCapSlot("MatCap 1", ref isShowMatCap1, 
-                    _CustomMatCap1_Enable, _CustomMatCap1_Color, _CustomMatCap1_MainColorPower, _CustomMatCap1_Tex, 
-                    _CustomMatCap1_Blend, _CustomMatCap1_Mask, 
-                    _CustomMatCap1_BumpScale, _CustomMatCap1_UseReflection, _CustomMatCap1_DisableBackface,
-                    _CustomMatCap1_EnableLighting, _CustomMatCap1_ShadowStrength, 
-                    _CustomMatCap1_Blur, _CustomMatCap1_Alpha);
+            EditorGUILayout.BeginVertical(boxOuter);
+            
+            DrawMatCapSlot("MatCap 1st", ref isShowMatCap1, 
+                _CustomMatCap1_Enable, _CustomMatCap1_Color, _CustomMatCap1_MainColorPower, _CustomMatCap1_Tex, 
+                _CustomMatCap1_Blend, _CustomMatCap1_Mask, 
+                _CustomMatCap1_BumpScale, _CustomMatCap1_UseReflection, _CustomMatCap1_DisableBackface,
+                _CustomMatCap1_EnableLighting, _CustomMatCap1_ShadowStrength, 
+                _CustomMatCap1_Blur, _CustomMatCap1_Alpha);
 
-                DrawMatCapSlot("MatCap 2nd", ref isShowMatCap2nd, 
-                    _CustomMatCap2nd_Enable, _CustomMatCap2nd_Color, _CustomMatCap2nd_MainColorPower, _CustomMatCap2nd_Tex, 
-                    _CustomMatCap2nd_Blend, _CustomMatCap2nd_Mask, 
-                    _CustomMatCap2nd_BumpScale, _CustomMatCap2nd_UseReflection, _CustomMatCap2nd_DisableBackface,
-                    _CustomMatCap2nd_EnableLighting, _CustomMatCap2nd_ShadowStrength, 
-                    _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha);
+            DrawMatCapSlot("MatCap 2nd", ref isShowMatCap2nd, 
+                _CustomMatCap2nd_Enable, _CustomMatCap2nd_Color, _CustomMatCap2nd_MainColorPower, _CustomMatCap2nd_Tex, 
+                _CustomMatCap2nd_Blend, _CustomMatCap2nd_Mask, 
+                _CustomMatCap2nd_BumpScale, _CustomMatCap2nd_UseReflection, _CustomMatCap2nd_DisableBackface,
+                _CustomMatCap2nd_EnableLighting, _CustomMatCap2nd_ShadowStrength, 
+                _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha);
 
-                EditorGUILayout.EndVertical();
-            }
+            DrawMatCapSlot("MatCap 3rd", ref isShowMatCap3rd, 
+                _CustomMatCap3rd_Enable, _CustomMatCap3rd_Color, _CustomMatCap3rd_MainColorPower, _CustomMatCap3rd_Tex, 
+                _CustomMatCap3rd_Blend, _CustomMatCap3rd_Mask, 
+                _CustomMatCap3rd_BumpScale, _CustomMatCap3rd_UseReflection, _CustomMatCap3rd_DisableBackface,
+                _CustomMatCap3rd_EnableLighting, _CustomMatCap3rd_ShadowStrength, 
+                _CustomMatCap3rd_Blur, _CustomMatCap3rd_Alpha);
+
+            EditorGUILayout.EndVertical();
         }
 
         private void DrawMatCapSlot(string title, ref bool isShow, 
