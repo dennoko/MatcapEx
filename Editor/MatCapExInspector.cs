@@ -157,10 +157,10 @@ namespace lilToon
             {
                 EditorGUILayout.BeginVertical(boxInner);
                 
-                m_MaterialEditor.ShaderProperty(enable, new GUIContent("Enable"));
-                m_MaterialEditor.TexturePropertySingleLine(new GUIContent("Texture"), tex, color);
-                m_MaterialEditor.ShaderProperty(mainColorPower, new GUIContent("Main Color Strength")); // Added this line
-                m_MaterialEditor.ShaderProperty(alpha, new GUIContent("Opacity"));
+                m_MaterialEditor.ShaderProperty(enable, new GUIContent("Enable", "MatCapを有効にします"));
+                m_MaterialEditor.TexturePropertySingleLine(new GUIContent("Texture", "MatCapテクスチャを設定します"), tex, color);
+                m_MaterialEditor.ShaderProperty(mainColorPower, new GUIContent("Main Color Strength", "メインテクスチャの色をMatCapに乗算する強度。0で無効、1で完全適用"));
+                m_MaterialEditor.ShaderProperty(alpha, new GUIContent("Opacity", "MatCapの不透明度"));
                 
                 // Blend Mode
                 EditorGUI.BeginChangeCheck();
@@ -169,22 +169,22 @@ namespace lilToon
                 // Clamp index just in case
                 if(blendMode < 0 || blendMode >= blendModes.Length) blendMode = 0;
                 
-                blendMode = EditorGUILayout.Popup(new GUIContent("Blend Mode"), blendMode, blendModes);
+                blendMode = EditorGUILayout.Popup(new GUIContent("Blend Mode", "合成モード。Add=加算, Screen=スクリーン, Multiply=乗算, Overlay=オーバーレイ, Soft Light=ソフトライト, Replace=置換, Subtract=減算, Lighten=比較(明), Darken=比較(暗)"), blendMode, blendModes);
                 if (EditorGUI.EndChangeCheck()) blend.floatValue = blendMode;
                 
-                m_MaterialEditor.ShaderProperty(blur, new GUIContent("Blur"));
+                m_MaterialEditor.ShaderProperty(blur, new GUIContent("Blur", "MatCapのぼかし強度。MipMapが必要です"));
 
                 // Mask (Tiling shown)
-                m_MaterialEditor.TexturePropertySingleLine(new GUIContent("Mask"), mask);
+                m_MaterialEditor.TexturePropertySingleLine(new GUIContent("Mask", "MatCapを適用する範囲を制限するマスクテクスチャ。白=適用、黒=非適用"), mask);
                 m_MaterialEditor.TextureScaleOffsetProperty(mask);
                 
                 // Options
-                m_MaterialEditor.ShaderProperty(bumpScale, new GUIContent("Normal Strength"));
-                m_MaterialEditor.ShaderProperty(reflection, new GUIContent("Use Reflection"));
-                m_MaterialEditor.ShaderProperty(disableBackface, new GUIContent("Disable on Backface"));
-                m_MaterialEditor.ShaderProperty(lighting, new GUIContent("Enable Lighting"));
-                m_MaterialEditor.ShaderProperty(shadow, new GUIContent("Shadow Strength"));
-                m_MaterialEditor.ShaderProperty(rimPower, new GUIContent("Rim Power"));
+                m_MaterialEditor.ShaderProperty(bumpScale, new GUIContent("Normal Strength", "法線マップの影響度。0でフラット、1以上で強調"));
+                m_MaterialEditor.ShaderProperty(reflection, new GUIContent("Use Reflection", "視線反射モード。ONで鏡面反射のような挙動になります"));
+                m_MaterialEditor.ShaderProperty(disableBackface, new GUIContent("Disable on Backface", "裏面でMatCapを無効にします"));
+                m_MaterialEditor.ShaderProperty(lighting, new GUIContent("Enable Lighting", "ライティングの影響を受けるかどうか。0で無効、1で完全適用"));
+                m_MaterialEditor.ShaderProperty(shadow, new GUIContent("Shadow Strength", "影部分でのMatCap減衰強度。0で影響なし、1で影部分で完全に消える"));
+                m_MaterialEditor.ShaderProperty(rimPower, new GUIContent("Rim Power", "リムマスク（フレネル）。正の値=エッジに適用、負の値=中心に適用、0=無効"));
                 
                 EditorGUILayout.EndVertical();
             }
