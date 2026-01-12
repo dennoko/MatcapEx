@@ -21,6 +21,7 @@ namespace lilToon
         private MaterialProperty _CustomMatCap1_ShadowStrength;
         private MaterialProperty _CustomMatCap1_Blur;
         private MaterialProperty _CustomMatCap1_Alpha;
+        private MaterialProperty _CustomMatCap1_RimPower;
 
         // Custom properties 2nd
         private static bool isShowMatCap2nd;
@@ -37,6 +38,7 @@ namespace lilToon
         private MaterialProperty _CustomMatCap2nd_ShadowStrength;
         private MaterialProperty _CustomMatCap2nd_Blur;
         private MaterialProperty _CustomMatCap2nd_Alpha;
+        private MaterialProperty _CustomMatCap2nd_RimPower;
 
         // Custom properties 3rd
         private static bool isShowMatCap3rd;
@@ -53,6 +55,7 @@ namespace lilToon
         private MaterialProperty _CustomMatCap3rd_ShadowStrength;
         private MaterialProperty _CustomMatCap3rd_Blur;
         private MaterialProperty _CustomMatCap3rd_Alpha;
+        private MaterialProperty _CustomMatCap3rd_RimPower;
 
         private static bool isShowCustomProperties;
         private const string shaderName = "dennoko_matcapex";
@@ -76,6 +79,7 @@ namespace lilToon
             _CustomMatCap1_ShadowStrength  = FindProperty("_CustomMatCap1_ShadowStrength", props);
             _CustomMatCap1_Blur            = FindProperty("_CustomMatCap1_Blur", props);
             _CustomMatCap1_Alpha           = FindProperty("_CustomMatCap1_Alpha", props);
+            _CustomMatCap1_RimPower        = FindProperty("_CustomMatCap1_RimPower", props);
 
             _CustomMatCap2nd_Enable          = FindProperty("_CustomMatCap2nd_Enable", props);
             _CustomMatCap2nd_Color           = FindProperty("_CustomMatCap2nd_Color", props);
@@ -90,6 +94,7 @@ namespace lilToon
             _CustomMatCap2nd_ShadowStrength  = FindProperty("_CustomMatCap2nd_ShadowStrength", props);
             _CustomMatCap2nd_Blur            = FindProperty("_CustomMatCap2nd_Blur", props);
             _CustomMatCap2nd_Alpha           = FindProperty("_CustomMatCap2nd_Alpha", props);
+            _CustomMatCap2nd_RimPower        = FindProperty("_CustomMatCap2nd_RimPower", props);
 
             _CustomMatCap3rd_Enable          = FindProperty("_CustomMatCap3rd_Enable", props);
             _CustomMatCap3rd_Color           = FindProperty("_CustomMatCap3rd_Color", props);
@@ -104,6 +109,7 @@ namespace lilToon
             _CustomMatCap3rd_ShadowStrength  = FindProperty("_CustomMatCap3rd_ShadowStrength", props);
             _CustomMatCap3rd_Blur            = FindProperty("_CustomMatCap3rd_Blur", props);
             _CustomMatCap3rd_Alpha           = FindProperty("_CustomMatCap3rd_Alpha", props);
+            _CustomMatCap3rd_RimPower        = FindProperty("_CustomMatCap3rd_RimPower", props);
         }
 
         protected override void DrawCustomProperties(Material material)
@@ -115,21 +121,21 @@ namespace lilToon
                 _CustomMatCap1_Blend, _CustomMatCap1_Mask, 
                 _CustomMatCap1_BumpScale, _CustomMatCap1_UseReflection, _CustomMatCap1_DisableBackface,
                 _CustomMatCap1_EnableLighting, _CustomMatCap1_ShadowStrength, 
-                _CustomMatCap1_Blur, _CustomMatCap1_Alpha);
+                _CustomMatCap1_Blur, _CustomMatCap1_Alpha, _CustomMatCap1_RimPower);
 
             DrawMatCapSlot("MatCap 2nd", ref isShowMatCap2nd, 
                 _CustomMatCap2nd_Enable, _CustomMatCap2nd_Color, _CustomMatCap2nd_MainColorPower, _CustomMatCap2nd_Tex, 
                 _CustomMatCap2nd_Blend, _CustomMatCap2nd_Mask, 
                 _CustomMatCap2nd_BumpScale, _CustomMatCap2nd_UseReflection, _CustomMatCap2nd_DisableBackface,
                 _CustomMatCap2nd_EnableLighting, _CustomMatCap2nd_ShadowStrength, 
-                _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha);
+                _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha, _CustomMatCap2nd_RimPower);
 
             DrawMatCapSlot("MatCap 3rd", ref isShowMatCap3rd, 
                 _CustomMatCap3rd_Enable, _CustomMatCap3rd_Color, _CustomMatCap3rd_MainColorPower, _CustomMatCap3rd_Tex, 
                 _CustomMatCap3rd_Blend, _CustomMatCap3rd_Mask, 
                 _CustomMatCap3rd_BumpScale, _CustomMatCap3rd_UseReflection, _CustomMatCap3rd_DisableBackface,
                 _CustomMatCap3rd_EnableLighting, _CustomMatCap3rd_ShadowStrength, 
-                _CustomMatCap3rd_Blur, _CustomMatCap3rd_Alpha);
+                _CustomMatCap3rd_Blur, _CustomMatCap3rd_Alpha, _CustomMatCap3rd_RimPower);
 
             EditorGUILayout.EndVertical();
         }
@@ -139,7 +145,7 @@ namespace lilToon
             MaterialProperty blend, MaterialProperty mask,
             MaterialProperty bumpScale, MaterialProperty reflection, MaterialProperty disableBackface,
             MaterialProperty lighting, MaterialProperty shadow,
-            MaterialProperty blur, MaterialProperty alpha)
+            MaterialProperty blur, MaterialProperty alpha, MaterialProperty rimPower)
         {
             isShow = Foldout(title, title, isShow);
             if(!isShow) return;
@@ -147,7 +153,7 @@ namespace lilToon
             EditorGUILayout.LabelField(title, customToggleFont);
             
             // Check for nulls to prevent errors if properties are missing
-            if (enable != null && tex != null && blend != null && mask != null && bumpScale != null && reflection != null && disableBackface != null && lighting != null && shadow != null && blur != null && alpha != null && mainColorPower != null)
+            if (enable != null && tex != null && blend != null && mask != null && bumpScale != null && reflection != null && disableBackface != null && lighting != null && shadow != null && blur != null && alpha != null && mainColorPower != null && rimPower != null)
             {
                 EditorGUILayout.BeginVertical(boxInner);
                 
@@ -158,7 +164,7 @@ namespace lilToon
                 
                 // Blend Mode
                 EditorGUI.BeginChangeCheck();
-                string[] blendModes = { "Add", "Screen", "Multiply" };
+                string[] blendModes = { "Add", "Screen", "Multiply", "Overlay", "Soft Light", "Replace", "Subtract", "Lighten", "Darken" };
                 int blendMode = (int)blend.floatValue;
                 // Clamp index just in case
                 if(blendMode < 0 || blendMode >= blendModes.Length) blendMode = 0;
@@ -178,10 +184,29 @@ namespace lilToon
                 m_MaterialEditor.ShaderProperty(disableBackface, new GUIContent("Disable on Backface"));
                 m_MaterialEditor.ShaderProperty(lighting, new GUIContent("Enable Lighting"));
                 m_MaterialEditor.ShaderProperty(shadow, new GUIContent("Shadow Strength"));
+                m_MaterialEditor.ShaderProperty(rimPower, new GUIContent("Rim Power"));
                 
                 EditorGUILayout.EndVertical();
             }
             EditorGUILayout.EndVertical();
+        }
+
+        protected override void ReplaceToCustomShaders()
+        {
+            lts         = Shader.Find(shaderName + "/lilToon");
+            ltsc        = Shader.Find("Hidden/" + shaderName + "/Cutout");
+            ltst        = Shader.Find("Hidden/" + shaderName + "/Transparent");
+            ltsot       = Shader.Find("Hidden/" + shaderName + "/OnePassTransparent");
+            ltstt       = Shader.Find("Hidden/" + shaderName + "/TwoPassTransparent");
+
+            ltso        = Shader.Find("Hidden/" + shaderName + "/OpaqueOutline");
+            ltsco       = Shader.Find("Hidden/" + shaderName + "/CutoutOutline");
+            ltsto       = Shader.Find("Hidden/" + shaderName + "/TransparentOutline");
+            ltsoto      = Shader.Find("Hidden/" + shaderName + "/OnePassTransparentOutline");
+            ltstto      = Shader.Find("Hidden/" + shaderName + "/TwoPassTransparentOutline");
+
+            ltsover     = Shader.Find(shaderName + "/[Optional] Overlay");
+            ltsoover    = Shader.Find(shaderName + "/[Optional] OverlayOnePass");
         }
 
         // You can create a menu like this

@@ -15,6 +15,7 @@
     float _CustomMatCap1_Blur; \
     float _CustomMatCap1_Alpha; \
     float _CustomMatCap1_MainColorPower; \
+    float _CustomMatCap1_RimPower; \
     float4 _CustomMatCap1_Tex_ST; \
     float4 _CustomMatCap1_Mask_ST; \
     /* MatCap 2nd */ \
@@ -29,6 +30,7 @@
     float _CustomMatCap2nd_Blur; \
     float _CustomMatCap2nd_Alpha; \
     float _CustomMatCap2nd_MainColorPower; \
+    float _CustomMatCap2nd_RimPower; \
     float4 _CustomMatCap2nd_Tex_ST; \
     float4 _CustomMatCap2nd_Mask_ST; \
     /* MatCap 3rd */ \
@@ -43,6 +45,7 @@
     float _CustomMatCap3rd_Blur; \
     float _CustomMatCap3rd_Alpha; \
     float _CustomMatCap3rd_MainColorPower; \
+    float _CustomMatCap3rd_RimPower; \
     float4 _CustomMatCap3rd_Tex_ST; \
     float4 _CustomMatCap3rd_Mask_ST;
 
@@ -122,6 +125,19 @@
         if (_CustomMatCap##idx##_DisableBackface && fd.facing < 0) mask##idx = 0.0; \
         mask##idx *= saturate(_CustomMatCap##idx##_Alpha); \
         \
+        /* Rim Mask (Fresnel) */ \
+        float rimPower##idx = _CustomMatCap##idx##_RimPower; \
+        if (abs(rimPower##idx) > 0.01) { \
+            float NdotV##idx = saturate(dot(fd.N, fd.V)); \
+            float fresnel##idx; \
+            if (rimPower##idx > 0.0) { \
+                fresnel##idx = pow(1.0 - NdotV##idx, rimPower##idx); \
+            } else { \
+                fresnel##idx = 1.0 - pow(1.0 - NdotV##idx, -rimPower##idx); \
+            } \
+            mask##idx *= fresnel##idx; \
+        } \
+        \
         /* Lighting Integration */ \
         float shadowFac = lerp(1.0, fd.attenuation * fd.shadowmix, _CustomMatCap##idx##_ShadowStrength); \
         float3 lightFac = lerp(float3(1,1,1), fd.lightColor, _CustomMatCap##idx##_EnableLighting); \
@@ -133,6 +149,20 @@
         if (blend##idx == 0) targetColor += mcColor; /* Add */ \
         else if (blend##idx == 1) targetColor = 1.0 - (1.0 - targetColor) * (1.0 - mcColor); /* Screen */ \
         else if (blend##idx == 2) targetColor *= mcColor; /* Multiply */ \
+        else if (blend##idx == 3) { /* Overlay */ \
+            float3 ovl; \
+            ovl.r = (targetColor.r < 0.5) ? (2.0 * targetColor.r * mcColor.r) : (1.0 - 2.0 * (1.0 - targetColor.r) * (1.0 - mcColor.r)); \
+            ovl.g = (targetColor.g < 0.5) ? (2.0 * targetColor.g * mcColor.g) : (1.0 - 2.0 * (1.0 - targetColor.g) * (1.0 - mcColor.g)); \
+            ovl.b = (targetColor.b < 0.5) ? (2.0 * targetColor.b * mcColor.b) : (1.0 - 2.0 * (1.0 - targetColor.b) * (1.0 - mcColor.b)); \
+            targetColor = ovl; \
+        } \
+        else if (blend##idx == 4) { /* Soft Light */ \
+            targetColor = (1.0 - 2.0 * mcColor) * targetColor * targetColor + 2.0 * mcColor * targetColor; \
+        } \
+        else if (blend##idx == 5) targetColor = mcColor; /* Replace */ \
+        else if (blend##idx == 6) targetColor -= mcColor; /* Subtract */ \
+        else if (blend##idx == 7) targetColor = max(targetColor, mcColor); /* Lighten */ \
+        else if (blend##idx == 8) targetColor = min(targetColor, mcColor); /* Darken */ \
         \
         fd.col.rgb = lerp(fd.col.rgb, targetColor, mask##idx); \
     }
