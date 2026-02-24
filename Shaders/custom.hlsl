@@ -16,6 +16,9 @@
     float _CustomMatCap1_Alpha; \
     float _CustomMatCap1_MainColorPower; \
     float _CustomMatCap1_RimPower; \
+    int _CustomMatCap1_ZRollCancel; \
+    int _CustomMatCap1_UseMask; \
+    float _CustomMatCap1_EmissionAdd; \
     float4 _CustomMatCap1_Tex_ST; \
     float4 _CustomMatCap1_Mask_ST; \
     /* MatCap 2nd */ \
@@ -31,6 +34,9 @@
     float _CustomMatCap2nd_Alpha; \
     float _CustomMatCap2nd_MainColorPower; \
     float _CustomMatCap2nd_RimPower; \
+    int _CustomMatCap2nd_ZRollCancel; \
+    int _CustomMatCap2nd_UseMask; \
+    float _CustomMatCap2nd_EmissionAdd; \
     float4 _CustomMatCap2nd_Tex_ST; \
     float4 _CustomMatCap2nd_Mask_ST; \
     /* MatCap 3rd */ \
@@ -46,6 +52,9 @@
     float _CustomMatCap3rd_Alpha; \
     float _CustomMatCap3rd_MainColorPower; \
     float _CustomMatCap3rd_RimPower; \
+    int _CustomMatCap3rd_ZRollCancel; \
+    int _CustomMatCap3rd_UseMask; \
+    float _CustomMatCap3rd_EmissionAdd; \
     float4 _CustomMatCap3rd_Tex_ST; \
     float4 _CustomMatCap3rd_Mask_ST;
 
@@ -96,11 +105,8 @@
 #define DNKW_MATCAP_LOGIC(idx) \
     if (_CustomMatCap##idx##_Enable > 0.5) { \
         /* Normal Calculation */ \
-        float3 N_mc = normalize(fd.N); \
         float bumpScale##idx = _CustomMatCap##idx##_BumpScale; \
-        float3 N_orig = normalize(fd.origN); \
-        float3 N_main = normalize(fd.N); \
-        N_mc = normalize(lerp(N_orig, N_main, bumpScale##idx)); \
+        float3 N_mc = normalize(lerp(fd.origN, fd.N, bumpScale##idx)); \
         \
         /* Reflection Mode Check */ \
         if (_CustomMatCap##idx##_UseReflection > 0.5) { \
@@ -108,7 +114,21 @@
         } \
         \
         /* View Space Conversion */ \
-        float3 N_vs = mul((float3x3)UNITY_MATRIX_V, N_mc); \
+        float3 N_vs; \
+        if (_CustomMatCap##idx##_ZRollCancel > 0.5) { \
+            float3 worldViewDir = -UNITY_MATRIX_V[2].xyz; \
+            float3 viewUp = float3(0, 1, 0); \
+            float3 viewRight = cross(viewUp, worldViewDir); \
+            if (length(viewRight) < 0.001) { \
+                viewRight = float3(1, 0, 0); \
+            } else { \
+                viewRight = normalize(viewRight); \
+            } \
+            viewUp = cross(worldViewDir, viewRight); \
+            N_vs = float3(dot(viewRight, N_mc), dot(viewUp, N_mc), dot(worldViewDir, N_mc)); \
+        } else { \
+            N_vs = mul((float3x3)UNITY_MATRIX_V, N_mc); \
+        } \
         N_vs.z *= -1.0; \
         float2 uv_mc = N_vs.xy * 0.5 + 0.5; \
         \
@@ -118,11 +138,14 @@
         mcColor *= lerp(1.0, fd.albedo, _CustomMatCap##idx##_MainColorPower); \
         \
         /* Masking */ \
-        float2 maskUV##idx = uvMain * _CustomMatCap##idx##_Mask_ST.xy + _CustomMatCap##idx##_Mask_ST.zw; \
-        float mask##idx = LIL_SAMPLE_2D(_CustomMatCap##idx##_Mask, sampler_linear_repeat, maskUV##idx).r; \
+        float mask##idx = 1.0; \
+        if (_CustomMatCap##idx##_UseMask > 0.5) { \
+            float2 maskUV##idx = uvMain * _CustomMatCap##idx##_Mask_ST.xy + _CustomMatCap##idx##_Mask_ST.zw; \
+            mask##idx = LIL_SAMPLE_2D(_CustomMatCap##idx##_Mask, sampler_linear_repeat, maskUV##idx).r; \
+        } \
         \
         /* Backface Disable */ \
-        if (_CustomMatCap##idx##_DisableBackface && fd.facing < 0) mask##idx = 0.0; \
+        if (_CustomMatCap##idx##_DisableBackface > 0.5 && fd.facing < 0) mask##idx = 0.0; \
         mask##idx *= saturate(_CustomMatCap##idx##_Alpha); \
         \
         /* Rim Mask (Fresnel) */ \
@@ -165,6 +188,7 @@
         else if (blend##idx == 8) targetColor = min(targetColor, mcColor); /* Darken */ \
         \
         fd.col.rgb = lerp(fd.col.rgb, targetColor, mask##idx); \
+        fd.emissionColor += mcColor * mask##idx * _CustomMatCap##idx##_EmissionAdd; \
     }
 
 #if !defined(UNITY_PASS_SHADOWCASTER)

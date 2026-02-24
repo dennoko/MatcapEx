@@ -22,6 +22,9 @@ namespace lilToon
         private MaterialProperty _CustomMatCap1_Blur;
         private MaterialProperty _CustomMatCap1_Alpha;
         private MaterialProperty _CustomMatCap1_RimPower;
+        private MaterialProperty _CustomMatCap1_ZRollCancel;
+        private MaterialProperty _CustomMatCap1_UseMask;
+        private MaterialProperty _CustomMatCap1_EmissionAdd;
 
         // Custom properties 2nd
         private static bool isShowMatCap2nd;
@@ -39,6 +42,9 @@ namespace lilToon
         private MaterialProperty _CustomMatCap2nd_Blur;
         private MaterialProperty _CustomMatCap2nd_Alpha;
         private MaterialProperty _CustomMatCap2nd_RimPower;
+        private MaterialProperty _CustomMatCap2nd_ZRollCancel;
+        private MaterialProperty _CustomMatCap2nd_UseMask;
+        private MaterialProperty _CustomMatCap2nd_EmissionAdd;
 
         // Custom properties 3rd
         private static bool isShowMatCap3rd;
@@ -56,6 +62,9 @@ namespace lilToon
         private MaterialProperty _CustomMatCap3rd_Blur;
         private MaterialProperty _CustomMatCap3rd_Alpha;
         private MaterialProperty _CustomMatCap3rd_RimPower;
+        private MaterialProperty _CustomMatCap3rd_ZRollCancel;
+        private MaterialProperty _CustomMatCap3rd_UseMask;
+        private MaterialProperty _CustomMatCap3rd_EmissionAdd;
 
         private static bool isShowCustomProperties;
         private const string shaderName = "dennoko_matcapex";
@@ -80,6 +89,9 @@ namespace lilToon
             _CustomMatCap1_Blur            = FindProperty("_CustomMatCap1_Blur", props);
             _CustomMatCap1_Alpha           = FindProperty("_CustomMatCap1_Alpha", props);
             _CustomMatCap1_RimPower        = FindProperty("_CustomMatCap1_RimPower", props);
+            _CustomMatCap1_ZRollCancel     = FindProperty("_CustomMatCap1_ZRollCancel", props);
+            _CustomMatCap1_UseMask         = FindProperty("_CustomMatCap1_UseMask", props);
+            _CustomMatCap1_EmissionAdd     = FindProperty("_CustomMatCap1_EmissionAdd", props);
 
             _CustomMatCap2nd_Enable          = FindProperty("_CustomMatCap2nd_Enable", props);
             _CustomMatCap2nd_Color           = FindProperty("_CustomMatCap2nd_Color", props);
@@ -95,6 +107,9 @@ namespace lilToon
             _CustomMatCap2nd_Blur            = FindProperty("_CustomMatCap2nd_Blur", props);
             _CustomMatCap2nd_Alpha           = FindProperty("_CustomMatCap2nd_Alpha", props);
             _CustomMatCap2nd_RimPower        = FindProperty("_CustomMatCap2nd_RimPower", props);
+            _CustomMatCap2nd_ZRollCancel     = FindProperty("_CustomMatCap2nd_ZRollCancel", props);
+            _CustomMatCap2nd_UseMask         = FindProperty("_CustomMatCap2nd_UseMask", props);
+            _CustomMatCap2nd_EmissionAdd     = FindProperty("_CustomMatCap2nd_EmissionAdd", props);
 
             _CustomMatCap3rd_Enable          = FindProperty("_CustomMatCap3rd_Enable", props);
             _CustomMatCap3rd_Color           = FindProperty("_CustomMatCap3rd_Color", props);
@@ -110,6 +125,9 @@ namespace lilToon
             _CustomMatCap3rd_Blur            = FindProperty("_CustomMatCap3rd_Blur", props);
             _CustomMatCap3rd_Alpha           = FindProperty("_CustomMatCap3rd_Alpha", props);
             _CustomMatCap3rd_RimPower        = FindProperty("_CustomMatCap3rd_RimPower", props);
+            _CustomMatCap3rd_ZRollCancel     = FindProperty("_CustomMatCap3rd_ZRollCancel", props);
+            _CustomMatCap3rd_UseMask         = FindProperty("_CustomMatCap3rd_UseMask", props);
+            _CustomMatCap3rd_EmissionAdd     = FindProperty("_CustomMatCap3rd_EmissionAdd", props);
         }
 
         protected override void DrawCustomProperties(Material material)
@@ -121,21 +139,24 @@ namespace lilToon
                 _CustomMatCap1_Blend, _CustomMatCap1_Mask, 
                 _CustomMatCap1_BumpScale, _CustomMatCap1_UseReflection, _CustomMatCap1_DisableBackface,
                 _CustomMatCap1_EnableLighting, _CustomMatCap1_ShadowStrength, 
-                _CustomMatCap1_Blur, _CustomMatCap1_Alpha, _CustomMatCap1_RimPower);
+                _CustomMatCap1_Blur, _CustomMatCap1_Alpha, _CustomMatCap1_RimPower,
+                _CustomMatCap1_ZRollCancel, _CustomMatCap1_UseMask, _CustomMatCap1_EmissionAdd);
 
             DrawMatCapSlot("MatCap 2nd", ref isShowMatCap2nd, 
                 _CustomMatCap2nd_Enable, _CustomMatCap2nd_Color, _CustomMatCap2nd_MainColorPower, _CustomMatCap2nd_Tex, 
                 _CustomMatCap2nd_Blend, _CustomMatCap2nd_Mask, 
                 _CustomMatCap2nd_BumpScale, _CustomMatCap2nd_UseReflection, _CustomMatCap2nd_DisableBackface,
                 _CustomMatCap2nd_EnableLighting, _CustomMatCap2nd_ShadowStrength, 
-                _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha, _CustomMatCap2nd_RimPower);
+                _CustomMatCap2nd_Blur, _CustomMatCap2nd_Alpha, _CustomMatCap2nd_RimPower,
+                _CustomMatCap2nd_ZRollCancel, _CustomMatCap2nd_UseMask, _CustomMatCap2nd_EmissionAdd);
 
             DrawMatCapSlot("MatCap 3rd", ref isShowMatCap3rd, 
                 _CustomMatCap3rd_Enable, _CustomMatCap3rd_Color, _CustomMatCap3rd_MainColorPower, _CustomMatCap3rd_Tex, 
                 _CustomMatCap3rd_Blend, _CustomMatCap3rd_Mask, 
                 _CustomMatCap3rd_BumpScale, _CustomMatCap3rd_UseReflection, _CustomMatCap3rd_DisableBackface,
                 _CustomMatCap3rd_EnableLighting, _CustomMatCap3rd_ShadowStrength, 
-                _CustomMatCap3rd_Blur, _CustomMatCap3rd_Alpha, _CustomMatCap3rd_RimPower);
+                _CustomMatCap3rd_Blur, _CustomMatCap3rd_Alpha, _CustomMatCap3rd_RimPower,
+                _CustomMatCap3rd_ZRollCancel, _CustomMatCap3rd_UseMask, _CustomMatCap3rd_EmissionAdd);
 
             EditorGUILayout.EndVertical();
         }
@@ -145,7 +166,8 @@ namespace lilToon
             MaterialProperty blend, MaterialProperty mask,
             MaterialProperty bumpScale, MaterialProperty reflection, MaterialProperty disableBackface,
             MaterialProperty lighting, MaterialProperty shadow,
-            MaterialProperty blur, MaterialProperty alpha, MaterialProperty rimPower)
+            MaterialProperty blur, MaterialProperty alpha, MaterialProperty rimPower,
+            MaterialProperty zRollCancel, MaterialProperty useMask, MaterialProperty emissionAdd)
         {
             isShow = Foldout(title, title, isShow);
             if(!isShow) return;
@@ -153,7 +175,7 @@ namespace lilToon
             EditorGUILayout.LabelField(title, customToggleFont);
             
             // Check for nulls to prevent errors if properties are missing
-            if (enable != null && tex != null && blend != null && mask != null && bumpScale != null && reflection != null && disableBackface != null && lighting != null && shadow != null && blur != null && alpha != null && mainColorPower != null && rimPower != null)
+            if (enable != null && tex != null && blend != null && mask != null && bumpScale != null && reflection != null && disableBackface != null && lighting != null && shadow != null && blur != null && alpha != null && mainColorPower != null && rimPower != null && zRollCancel != null && useMask != null && emissionAdd != null)
             {
                 EditorGUILayout.BeginVertical(boxInner);
                 
@@ -175,16 +197,19 @@ namespace lilToon
                 m_MaterialEditor.ShaderProperty(blur, new GUIContent("Blur", "MatCapのぼかし強度。MipMapが必要です"));
 
                 // Mask (Tiling shown)
+                m_MaterialEditor.ShaderProperty(useMask, new GUIContent("Use Mask", "マスクテクスチャを評価するかどうか"));
                 m_MaterialEditor.TexturePropertySingleLine(new GUIContent("Mask", "MatCapを適用する範囲を制限するマスクテクスチャ。白=適用、黒=非適用"), mask);
                 m_MaterialEditor.TextureScaleOffsetProperty(mask);
                 
                 // Options
                 m_MaterialEditor.ShaderProperty(bumpScale, new GUIContent("Normal Strength", "法線マップの影響度。0でフラット、1以上で強調"));
                 m_MaterialEditor.ShaderProperty(reflection, new GUIContent("Use Reflection", "視線反射モード。ONで鏡面反射のような挙動になります"));
+                m_MaterialEditor.ShaderProperty(zRollCancel, new GUIContent("Z-Roll Cancellation", "Z軸の首の傾きによる見え方の変化をキャンセルします"));
                 m_MaterialEditor.ShaderProperty(disableBackface, new GUIContent("Disable on Backface", "裏面でMatCapを無効にします"));
                 m_MaterialEditor.ShaderProperty(lighting, new GUIContent("Enable Lighting", "ライティングの影響を受けるかどうか。0で無効、1で完全適用"));
                 m_MaterialEditor.ShaderProperty(shadow, new GUIContent("Shadow Strength", "影部分でのMatCap減衰強度。0で影響なし、1で影部分で完全に消える"));
                 m_MaterialEditor.ShaderProperty(rimPower, new GUIContent("Rim Power", "リムマスク（フレネル）。正の値=エッジに適用、負の値=中心に適用、0=無効"));
+                m_MaterialEditor.ShaderProperty(emissionAdd, new GUIContent("Emission Addition", "MatCapの色を発光(Emission)として加算する強度"));
                 
                 EditorGUILayout.EndVertical();
             }

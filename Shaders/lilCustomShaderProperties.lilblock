@@ -16,6 +16,9 @@
                         _CustomMatCap1_Blur           ("Blur", Range(0,1)) = 0.0
                         _CustomMatCap1_Alpha          ("Opacity", Range(0,1)) = 1.0
                         _CustomMatCap1_RimPower       ("Rim Power", Range(-3,3)) = 0.0
+        [lilToggle]     _CustomMatCap1_ZRollCancel    ("Z-Roll Cancellation", Int) = 0
+        [lilToggle]     _CustomMatCap1_UseMask        ("Use Mask Texture", Int) = 1
+                        _CustomMatCap1_EmissionAdd    ("Emission Addition", Range(0,1)) = 0.0
 
         //----------------------------------------------------------------------------------------------------------------------
         // Custom MatCap 2nd
@@ -34,6 +37,9 @@
                         _CustomMatCap2nd_Blur           ("Blur", Range(0,1)) = 0.0
                         _CustomMatCap2nd_Alpha          ("Opacity", Range(0,1)) = 1.0
                         _CustomMatCap2nd_RimPower       ("Rim Power", Range(-3,3)) = 0.0
+        [lilToggle]     _CustomMatCap2nd_ZRollCancel    ("Z-Roll Cancellation", Int) = 0
+        [lilToggle]     _CustomMatCap2nd_UseMask        ("Use Mask Texture", Int) = 1
+                        _CustomMatCap2nd_EmissionAdd    ("Emission Addition", Range(0,1)) = 0.0
 
         //----------------------------------------------------------------------------------------------------------------------
         // Custom MatCap 3rd
@@ -52,3 +58,6 @@
                         _CustomMatCap3rd_Blur           ("Blur", Range(0,1)) = 0.0
                         _CustomMatCap3rd_Alpha          ("Opacity", Range(0,1)) = 1.0
                         _CustomMatCap3rd_RimPower       ("Rim Power", Range(-3,3)) = 0.0
+        [lilToggle]     _CustomMatCap3rd_ZRollCancel    ("Z-Roll Cancellation", Int) = 0
+        [lilToggle]     _CustomMatCap3rd_UseMask        ("Use Mask Texture", Int) = 1
+                        _CustomMatCap3rd_EmissionAdd    ("Emission Addition", Range(0,1)) = 0.0
